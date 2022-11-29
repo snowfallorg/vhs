@@ -96,7 +96,7 @@ Then, use this flake's library to render your VHS tape.
 				let
 					recorder = inputs.vhs.lib.mkRecorder channels.nixpkgs;
 				in {
-					packages.recording = recorder.record {
+					packages.default = recorder.record {
 						tape = ./example.tape;
 					};
 				};
