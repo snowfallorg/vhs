@@ -22,6 +22,7 @@ This flake provides a helper utility to render [VHS](https://github.com/charmbra
 tapes with Nix.
 
 > **Warning**
+>
 > Rendering VHS tapes in Nix requires a relaxed or disabled sandbox. Either run `nix build`
 > with the flag `--no-sandbox` or set `sandbox = relaxed` in your `nix.conf` file.
 
