@@ -1,5 +1,6 @@
-Output sample.mp4
-Output sample.gif
+Output sample/recording.mp4
+Output sample/recording.gif
+Output sample/frames/
 
 Type "# This is rendered in Nix!"
 Enter

@@ -4,7 +4,7 @@
 }:
 
 let
-  inherit (inputs.nixpkgs.lib) hasInfix concatMapStringsSep concatStringsSep makeBinPath traceSeq optionalString;
+  inherit (inputs.nixpkgs.lib) hasInfix hasSuffix concatMapStringsSep concatStringsSep makeBinPath traceSeq optionalString;
 in
 {
   # Create a VHS recorder.
@@ -33,7 +33,7 @@ in
             };
 
         raw-tape-outputs = pkgs.runCommandNoCC "tape-outputs" { } ''
-          ${pkgs.gnused}/bin/sed -E -n 's/Output (.*\.(mp4|gif|webm))/\1/p' ${tape-file} > $out
+          ${pkgs.gnused}/bin/sed -E -n 's/Output (.*)/\1/p' ${tape-file} > $out
         '';
 
         tape-outputs =
@@ -83,20 +83,29 @@ in
         ) file-mappings}
 
         ${concatMapStringsSep "\n" (output:
-          if hasInfix "/" output then
-          ''
-            mkdir -p $(dirname $out/${output}) $(dirname ./${output})
-          ''
+          if hasSuffix "/" output then
+            ''
+              mkdir -p "$out/${output}" ${output}
+            ''
+          else if hasInfix "/" output then
+            ''
+              mkdir -p $(dirname $out/${output}) $(dirname ./${output})
+            ''
           else
-          ""
+            ""
         ) tape-outputs}
 
         ${pkgs.vhs}/bin/vhs < ${tape-file}
 
         ${concatMapStringsSep "\n" (output:
-          ''
-            mv ./${output} $out/${output}
-          ''
+          if hasSuffix "/" output then
+            ''
+              mv ./${output}/* $out/${output}/
+            ''
+          else
+            ''
+              mv ./${output} $out/${output}
+            ''
         ) tape-outputs}
       '';
   };
