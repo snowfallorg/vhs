@@ -1,5 +1,5 @@
 {
-  description = "VHS Nixified";
+  description = "Snowfall VHS";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
